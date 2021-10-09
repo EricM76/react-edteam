@@ -11,7 +11,8 @@ class Form extends Component {
         this.state = {
             title : "",
             image : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRCmuKon8fBArTQfhMXgD1k4WZpGbrp8Zg11UKzbDreDNX4vyKFRrbGAtEM8H04eg8hY5U&usqp=CAU",
-            price : 0
+            price : 0,
+            hour : new Date
         }
 
         /* se tiene que bindiar las funciones para que se reconozcan con this */
@@ -19,6 +20,7 @@ class Form extends Component {
         this.changeTitle = this.changeTitle.bind(this)
         this.changeImage = this.changeImage.bind(this)
         this.changePrice = this.changePrice.bind(this)
+        this.updateHour = this.updateHour.bind(this)
 
     }
 
@@ -48,11 +50,18 @@ class Form extends Component {
         })
     }
 
+    updateHour(e){
+        this.setState({
+            hour : new Date()
+        })
+    }
+
     render() {
         return (
             <Fragment>
             <div>
                 <h2>Agregar curso</h2>
+                <h4>{`${this.state.hour.getHours()}:${this.state.hour.getMinutes().toString().length === 1 ? '0' + this.state.hour.getMinutes().toString() : this.state.hour.getMinutes()}:${this.state.hour.getSeconds().toString().length === 1 ? '0'+this.state.hour.getSeconds().toString():this.state.hour.getSeconds()}`}</h4>
                 <form>
                     <div className="form__item" >
                         <label htmlFor="title">Titulo del curso</label>
@@ -74,7 +83,7 @@ class Form extends Component {
                         <input 
                             className="button full" 
                             type="submit" 
-                            value="Enviar"
+                            value="Agregar"
                         />
                     </div>
                 </form>
@@ -102,6 +111,26 @@ class Form extends Component {
             </div>
             </Fragment>
         )
+    }
+
+    /* luego de cargado el componente, se ejecuta esta función. No se puede manipular el elemento si este no se ha renderizado con render() */
+    componentDidMount(){
+       this.intervalHour = setInterval(() => {
+            this.updateHour()
+        },1000)
+    }
+
+    /* 
+    => cuando se actualiza el componente por efecto de un cambio de estado o luego de que se hayan cargado librerías. Es decir cuando el DOM se actualiza se puede ejecutar luego el siguiente método.
+    => puedo acceder a las propiedes y estados previos a la actualización con prevProps y prevState
+    */
+    componentDidUpdate(prevProps, prevState){
+       console.log(prevState)
+    }
+
+    /* este método se ejecuta solo cuando el componente de desmonta. En este caso se detiene el reloj */
+    componentWillUnmount(){
+        clearInterval(this.intervalHour)
     }
 }
 

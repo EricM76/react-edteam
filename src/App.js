@@ -1,6 +1,8 @@
 //import logo from './logo.svg';
 //import './App.css';
 import { Fragment } from 'react';
+import Banner from './components/Banner';
+import Form from './components/Form';
 import Curso from './components/Curso';
 import './styles/styles.scss';
 
@@ -24,30 +26,22 @@ const courses = [
 
 const App = () => (
   <Fragment>
-  <div className="main-banner img-container l-section" id="main-banner">
-    <div className="ed-grid lg-grid-6">
-      <div className="lg-cols-4 lg-x-2">
-        <img className="main-banner__img" src="tu-imagen.jpg" alt='banner' />
-        <div className="main-banner__data s-center">
-          <p className="t2 s-mb-0">Cursos EDteam</p>
-          <p> Tu futuro te esta esperando</p>
-          <a href="/#" className="button">Suscribirse</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  <Banner />
   <div className="ed-grid m-grid-3">
 
-    {courses.map(course => (
+    {courses.map((course,index) => (
 
       <Curso 
         title = {course.title}
         image = {course.image}
         price = {course.price}
+        key = {course.title + index}
       />
 
     ))}
-  
+</div>
+<div className="ed-grid m-grid-3">
+<Form />
 
 </div>
 </Fragment>
